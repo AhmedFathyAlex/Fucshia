@@ -7,6 +7,7 @@ import 'CustomSearch.dart';
 import 'ProfileSec.dart';
 import 'package:fuchsia_app/ProfileThird.dart';
 import 'package:fuchsia_app/Payment_method_Choosing.dart';
+import 'package:fuchsia_app/Selection.dart';
 
 void main() {
     runApp(MaterialApp(
