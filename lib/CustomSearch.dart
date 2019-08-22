@@ -73,7 +73,8 @@ class CustomSearshState extends State<CustomSearsh> {
 }
 
 class DataSearch extends SearchDelegate<String> {
-//  final cities = [
+//  final cities = [\
+
 //    "alex",
 //    'cairo',
 //    "mansora",

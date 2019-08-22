@@ -6,11 +6,12 @@ import 'Search.dart';
 import 'CustomSearch.dart';
 import 'ProfileSec.dart';
 import 'package:fuchsia_app/ProfileThird.dart';
+import 'package:fuchsia_app/Payment_method_Choosing.dart';
 
 void main() {
     runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:ProfileThird(),
+      home:PaymentMethodChoosing(),
     ));
 }
 

@@ -56,6 +56,10 @@ flutter:
     - images/rock.jpg
     - images/me.jpg
     - images/man.jpg
+    - images/mada.png
+    - images/sdad.jpg
+    - images/arrived.jpg
+    - images/visaMaster.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
