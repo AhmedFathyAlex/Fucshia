@@ -8,11 +8,14 @@ import 'ProfileSec.dart';
 import 'package:fuchsia_app/ProfileThird.dart';
 import 'package:fuchsia_app/Payment_method_Choosing.dart';
 import 'package:fuchsia_app/Selection.dart';
+import 'package:fuchsia_app/draft.dart';
 
 void main() {
     runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:PaymentMethodChoosing(),
+      home:Scaffold(
+        body: PaymentMethodChoosing(),
+      ),
     ));
 }
 

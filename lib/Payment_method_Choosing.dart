@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fuchsia_app/User.dart';
+import 'package:fuchsia_app/RelatedPepole.dart';
 class PaymentMethodChoosing extends StatefulWidget{
   @override
   PaymentMethodChoosingState createState() {
@@ -10,11 +13,7 @@ class PaymentMethodChoosing extends StatefulWidget{
 
 }
 class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
-  List<User> myUsers = [
-    User(userName: 'AhmedFathy',email: "Alexandria,Egypt"),
-    User(userName: 'Osama maany',email: "Aga,Almansoura")
-  ];
-
+  List<RelatedPepole> myUsers;
   int _selectedIndex = 0;
 //  bool visa = false;
 //  bool mada = false;
@@ -28,6 +27,7 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
   }
   @override
   Widget build(BuildContext context) {
+    prepareMyList();
     return Scaffold(
       appBar: AppBar(
         title: Text('ادفع الان'),
@@ -41,12 +41,16 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
             height: 50.0,
             child: RaisedButton(
               onPressed: () {
-                showDialog(context: context,
-                builder: (BuildContext context){
-                  return AlertDialog(
-                    title: Text('${myUsers[_selectedIndex].userName} \n $paymentMethod'),
-                  );
-                });
+//                showDialog(context: context,
+//                builder: (BuildContext context){
+//                  return AlertDialog(
+//                    title: Text('${myUsers[_selectedIndex].userName} \n $paymentMethod'),
+//                  );
+//                });
+              setState(() {
+                print('--------------prepare My list------------');
+                prepareMyList();
+              });
               },
               child: Text("دفع  ",
               style: TextStyle(
@@ -220,17 +224,22 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
 //              ),
 //            ),
           child: ListView.builder(
-            itemCount: myUsers.length,
-              itemBuilder:(context,index){
+            itemCount: myUsers?.length ?? 0,
+//          itemCount: myUsers.length,   causing eroor
+             itemBuilder:(context,index){
                 return Card(
                   color: _selectedIndex != null && _selectedIndex == index
                       ? Colors.deepPurple
                       : Colors.white,
                   child: ListTile(
                     onTap:  () => _onSelected(index),
-                    leading:Icon(Icons.person) ,
-                    title: Text(myUsers[index].userName),
-                    subtitle: Text(myUsers[index].email),
+                    leading:CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage(myUsers[index].cUSPic),
+                      // child: Image.network(globals.manImagePath),
+                    ),
+                    title: Text(myUsers[index].cUSName??"Name"),
+                    subtitle: Text(myUsers[index].cUSAddress??"Address" ),
                   ),
                 );
               },
@@ -239,5 +248,62 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
         ],
       ),
     );
+  }
+
+  prepareMyList()async{
+    myUsers = await getMyData();
+  }
+
+  Future<List<RelatedPepole>> getMyData() async {
+    List<RelatedPepole> listMethod = List();
+    print('zzzzzzzzzzzzzzzzzzzzzzzzz');
+
+    final String urlFstPart = 'http://fuchsia4u.herokuapp.com';
+    final String urlMainCat =
+        '/api/v1/sell/customer/customerPerSpec/?M=1&customer=1';
+    String url = urlFstPart + urlMainCat;
+    String token = '6e5c5ec6aeeb19cbc7d9f3971458752c4c9771b1';
+    print('%%%%%%%%%%%%%%%%%%%----------------%%%%%%%%%%%%%%%%%%%%');
+    print('URL:: $url');
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $token', // Opend to all Users
+    });
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+    print('URL:: $url');
+
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+    print('===========${response.body}');
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+    if (response.statusCode == 200) {
+      print('Status code = 20000000000000000000');
+//    String bodyutf8 = utf8.decode(response.bodyBytes);
+//   listMethod  = (json.decode(bodyutf8) as List)
+//    // list = (json.decode(response.body) as List)
+//        .map((data) => new RelatedPepole.fromJson(data))
+//        .toList();
+
+      final String responseBody = await utf8.decode(response.bodyBytes);
+//    print('-------------------First body------------');
+//    print(responseBody);
+      List myList = (json.decode(responseBody) as List);
+//    print('--------------------my list [0] ----------------');
+//    print(myList[0]);
+//    print('--------------------my list [1]  ----------------');
+//    print(myList[1]);
+
+      for (int i = 0; i < myList.length; i++) {
+        listMethod.add(RelatedPepole.fromJson(myList[i]));
+      }
+      print('----------------test-------------');
+      print(listMethod[0].id);
+      print(listMethod[0].cUSName);
+      print(listMethod[0].cUSAddress);
+
+
+      return listMethod;
+    } else {
+      print('Not 200');
+    }
   }
 }
