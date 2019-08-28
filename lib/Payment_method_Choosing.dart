@@ -86,7 +86,7 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
                       child:Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Image(image: AssetImage('images/arrived.jpg'),
+                          Image(image: NetworkImage('https://fuchsia4u.s3-us-west-1.amazonaws.com/media/payWhenRecieved.jpg'),
                             height: 50,
                             width: 150,),
                           Text('الدفع عند الاستلام')
@@ -114,7 +114,7 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
                      child:Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: <Widget>[
-                         Image(image: AssetImage('images/mada.png'),
+                         Image(image: NetworkImage('https://fuchsia4u.s3-us-west-1.amazonaws.com/media/Mada.jpg'),
                          height: 50,
                          width: 150,),
                          Text('مدي')
@@ -143,7 +143,7 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Image(
-                            image: AssetImage('images/visaMaster.jpg'),
+                            image: NetworkImage('https://fuchsia4u.s3-us-west-1.amazonaws.com/media/visa.jpg'),
                             height: 50,
                             width: 150,),
                           Text('Visa / Master Card ')
@@ -172,7 +172,7 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Image(
-                            image: AssetImage('images/sdad.jpg'),
+                            image: NetworkImage('https://fuchsia4u.s3-us-west-1.amazonaws.com/media/Sdad.jpg'),
                             height: 50,
                             width: 150,),
                           Text('سداد')
