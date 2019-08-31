@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fuchsia_app/User.dart';
 import 'package:fuchsia_app/RelatedPepole.dart';
+import 'package:square_in_app_payments/in_app_payments.dart';
+import 'package:fuchsia_app/AddNewFellow.dart';
 class PaymentMethodChoosing extends StatefulWidget{
   @override
   PaymentMethodChoosingState createState() {
@@ -13,6 +15,7 @@ class PaymentMethodChoosing extends StatefulWidget{
 
 }
 class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
+ static const appId = 'sq0idp-FkR0yrpGnQfpHCLbdBLbdg';
   List<RelatedPepole> myUsers;
   int _selectedIndex = 0;
 //  bool visa = false;
@@ -25,6 +28,14 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
   _onSelected(int index) {
     setState(() => _selectedIndex = index);
   }
+
+  @override
+  void initState() {
+    setState(() {
+      prepareMyList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     prepareMyList();
@@ -47,10 +58,13 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
 //                    title: Text('${myUsers[_selectedIndex].userName} \n $paymentMethod'),
 //                  );
 //                });
-              setState(() {
-                print('--------------prepare My list------------');
-                prepareMyList();
-              });
+//              setState(() {
+//                print('--------------prepare My list------------');
+//                prepareMyList();
+//              });
+              if(paymentMethod=='Visa-Master'){
+                payment();
+              }
               },
               child: Text("دفع  ",
               style: TextStyle(
@@ -197,7 +211,14 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(Icons.group_add),
+                  IconButton(
+                    icon: Icon(Icons.group_add),
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return AddNewFellow();
+                      }));
+                    },
+                  ),
                   Text('قائمة الاصدقاء')
                 ],
             ),
@@ -305,5 +326,10 @@ class PaymentMethodChoosingState extends State<PaymentMethodChoosing> {
     } else {
       print('Not 200');
     }
+  }
+  payment() async {
+     print("In Payment Func");
+    await InAppPayments.setSquareApplicationId(appId);
+    await InAppPayments.startCardEntryFlow();
   }
 }
